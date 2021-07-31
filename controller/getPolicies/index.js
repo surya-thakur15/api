@@ -52,7 +52,7 @@ let getOnePolicy = function (req, res) {
       " pd.customer_id as `customerID`," +
       " pd.fuel as `fuel`," +
       " pd.vehicle_segment as `vehicleSegment`," +
-      " pd.premium as `premimum`," +
+      " pd.premium as `premium`," +
       " pd.bodily_injury_liability as `bodilyInjuryLiability`," +
       " pd.personal_injury_protection as `personalInjuryProtection`," +
       " pd.property_damage_liability as `propertyDamageLiability`," +
