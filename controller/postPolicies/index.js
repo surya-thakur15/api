@@ -1,91 +1,92 @@
 const queryHandler = require('../../handler/database/queryHandler');
 
 let updatePolicy = function (req, res) {
+
   try {
     console.log("Inside Update Policy");
     let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     console.log("REQ URL: ", fullUrl);
 
     let data = req.body;
-
+    
     if (!data.policyId || !data.customerId) {
       console.log("BAD REQUEST, Missing policyId");
       res.status(400).json({ "message": "Bad Request" });
       return;
     }
-    let query = 'update policy_details ';
+    let query = 'update policy_details SET ';
     let params = [];
     let subQuery = [];
 
-    let queryTwo = 'update user_details ';
+    let queryTwo = 'update user_details SET ';
     let params2 = [];
     let subQueryTwo = [];
 
     if (data.fuel) {
-      subQuery.push('SET fuel = ?');
+      subQuery.push('fuel = ?');
       params.push(data.fuel);
     }
 
     if (data.vehicleSegment) {
-      subQuery.push('SET vehicle_segment = ?');
+      subQuery.push('vehicle_segment = ?');
       params.push(data.vehicleSegment);
     }
 
     if (data.premium) {
-      subQuery.push('SET premium = ?');
+      subQuery.push('premium = ?');
       params.push(data.premium);
     }
 
     if (data.bodilyInjuryLiability) {
-      subQuery.push('SET bodily_injury_liability = ?');
+      subQuery.push('bodily_injury_liability = ?');
       params.push(data.bodilyInjuryLiability);
     }
 
     if (data.personalInjuryProtection) {
-      subQuery.push('SET personal_injury_protection = ?');
+      subQuery.push('personal_injury_protection = ?');
       params.push(data.personalInjuryProtection);
     }
 
     if (data.propertyDamageLiability) {
-      subQuery.push('SET property_damage_liability = ?');
+      subQuery.push('property_damage_liability = ?');
       params.push(data.propertyDamageLiability);
     }
 
     if (data.collision) {
-      subQuery.push('SET collision = ?');
+      subQuery.push('collision = ?');
       params.push(data.collision);
     }
 
     if (data.comprehensive) {
-      subQuery.push('SET comprehensive = ?');
+      subQuery.push('comprehensive = ?');
       params.push(data.comprehensive);
     }
 
     if (data.incomeGroup) {
-      subQuery.push('SET income_group = ?');
+      subQuery.push('income_group = ?');
       params.push(data.incomeGroup);
     }
 
     if (data.maritalStatus) {
-      subQuery.push('SET marital_status = ?');
+      subQuery.push('marital_status = ?');
       params.push(data.maritalStatus);
     }
 
     if (data.gender) {
-      subQueryTwo.push('SET gender = ?');
+      subQueryTwo.push('gender = ?');
       params2.push(data.gender);
     }
 
     if (data.region) {
-      subQueryTwo.push('SET region = ?');
+      subQueryTwo.push('region = ?');
       params2.push(data.region);
     }
 
-    query = query + subQuery.join(',') + "where policy_id = ?";
-    params.push(body.policyId);
+    query = query.concat(subQuery.join(', '), " where policy_id = ?;");
+    params.push(data.policyId);
 
-    queryTwo = queryTwo + subQueryTwo.join(',') + "where customer_id = ?";
-    params2.push(body.customerId);
+    queryTwo = queryTwo.concat(subQueryTwo.join(','), " where customer_id = ?;");
+    params2.push(data.customerId);
 
     queryHandler(req.app.get('dbWrite'), query, params)
       .then(response => {

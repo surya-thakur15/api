@@ -12,7 +12,7 @@ CREATE TABLE `policy_details` (
 `property_damage_liability` tinyint(1) DEFAULT '0',
 `collision` tinyint(1) DEFAULT '0',
 `comprehensive` tinyint(1) DEFAULT '0',
-`income_group` ENUM('>$70K', '0-$25K', '$25-$70K'),
+`income_group` varchar(24),
 `marital_status` tinyint(1) DEFAULT '0',
 `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
 `creation_date` datetime DEFAULT NULL,
