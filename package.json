@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.1",
+  "description": "Backend application to show Insurance policies on the UI",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=dev node server.js"
+  },
+  "author": "surya",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "util": "^0.12.4"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}
