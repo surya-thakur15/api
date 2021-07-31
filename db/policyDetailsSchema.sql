@@ -19,7 +19,7 @@ CREATE TABLE `policy_details` (
 `last_update` datetime DEFAULT NULL,
 `last_updated_by` varchar(150) DEFAULT NULL,
 PRIMARY KEY (`policy_id`),
-CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES bcg.user_details (customer_id) ON DELETE CASCADE
+CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES project.user_details (customer_id) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -38,7 +38,7 @@ BEGIN
 END;//
 delimiter ;
 
-LOAD DATA LOCAL INFILE '/home/suryapratap.singh/Desktop/DataSetInsuranceClient.csv'
+LOAD DATA LOCAL INFILE '/home/ubuntu/DataSetInsuranceClient.csv'
 INTO TABLE policy_details
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'

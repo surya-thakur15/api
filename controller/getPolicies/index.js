@@ -34,6 +34,7 @@ let getAllPolicies = function (req, res) {
 let getOnePolicy = function (req, res) {
   try {
     console.log("Inside Get One Policy ");
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     console.log("REQ URL: ", fullUrl);
     let searchKey;
     if (req.params && req.params.id) {
@@ -46,21 +47,21 @@ let getOnePolicy = function (req, res) {
       
     }
     let query = "select" +
-      " pd.policy_id as `Policy ID`," +
-      " pd.date_of_purchase as `Date of Purchase`," +
-      " DATE_FORMAT(pd.customer_id, GET_FORMAT(DATE, 'ISO')) as `Customer ID`," +
-      " pd.fuel as `Fuel`," +
-      " pd.vehicle_segment as `Vehicle Segment`," +
-      " pd.premium as `Premimum`," +
-      " pd.bodily_injury_liability as `Bodily Injury Liability`," +
-      " pd.personal_injury_protection as `Personal Injury Protection`," +
-      " pd.property_damage_liability as `Property Damage Liability`," +
-      " pd.collision as `Collision`," +
-      " pd.comprehensive as `Comprehensive`," +
-      " pd.income_group as `Income Group`," +
-      " pd.marital_status as `Marital Status`," +
-      " ud.gender as `Gender`," +
-      " ud.region as `Region`" +
+      " pd.policy_id as `policyID`," +
+      " DATE_FORMAT(pd.date_of_purchase, GET_FORMAT(DATE, 'ISO')) as `dateOfPurchase`," +
+      " pd.customer_id as `customerID`," +
+      " pd.fuel as `fuel`," +
+      " pd.vehicle_segment as `vehicleSegment`," +
+      " pd.premium as `premimum`," +
+      " pd.bodily_injury_liability as `bodilyInjuryLiability`," +
+      " pd.personal_injury_protection as `personalInjuryProtection`," +
+      " pd.property_damage_liability as `propertyDamageLiability`," +
+      " pd.collision as `collision`," +
+      " pd.comprehensive as `comprehensive`," +
+      " pd.income_group as `incomeGroup`," +
+      " pd.marital_status as `maritalStatus`," +
+      " ud.gender as `gender`," +
+      " ud.region as `region`" +
       " from policy_details pd" +
       " join user_details ud on ud.customer_id = pd.customer_id" +
       " where pd.policy_id = ?";
@@ -69,7 +70,6 @@ let getOnePolicy = function (req, res) {
 
     queryHandler(req.app.get('dbRead'), query, params)
       .then(response => {
-        console.log(response, typeof response, JSON.stringify(response));
         res.status(200).json({ response });
       })
       .catch((error) => {

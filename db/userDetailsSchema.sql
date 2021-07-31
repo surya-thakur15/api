@@ -27,7 +27,7 @@ BEGIN
 END;//
 delimiter ;
 
-LOAD DATA LOCAL INFILE '/home/suryapratap.singh/Desktop/DataSetInsuranceClient.csv'
+LOAD DATA LOCAL INFILE '/home/ubuntu/DataSetInsuranceClient.csv'
 INTO TABLE user_details
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
