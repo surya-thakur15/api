@@ -13,7 +13,7 @@ let getAllPolicies = function (req, res) {
                  premium,
                  income_group as incomeGroup
                  from policy_details
-                 where is_deleted = 0 limit 5`;
+                 where is_deleted = 0`;
     let params = [];
     queryHandler(req.app.get('dbRead'), query, params)
       .then(response => {
@@ -83,5 +83,49 @@ let getOnePolicy = function (req, res) {
   }
 }
 
+let getGraphData = function (req, res) {
+  try {
+
+    console.log("Inside Get One Policy ");
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    console.log("REQ URL: ", fullUrl);
+
+    let data = req.query;
+    console.log("data", data);
+
+    if (!(data && data.month && data.region)) {
+      console.log("BAD REQUEST, Missing Month or Region");
+      res.status(400).json({ "message": "Bad Request" });
+      return;
+    }
+
+    let query = `select pd.policy_id as name, count(pd.policy_id) as count
+                from policy_details pd left join user_details ud
+                on ud.customer_id = pd.customer_id
+                where MONTH(pd.date_of_purchase) = ?
+                and ud.region = ? group by pd.policy_id`;
+
+    let params = [data.month, data.region];
+    // let params = [3, 'North'];
+
+
+    queryHandler(req.app.get('dbRead'), query, params)
+      .then(response => {
+        res.status(200).json({ response });
+      })
+      .catch((error) => {
+        console.log('Error from database', error)
+        res.status(500).json({ error });
+        return;
+      });
+  } catch (error) {
+    console.log("error in getOnePolicy", error);
+    res.status(500).json({ error });
+  } 
+} 
+
+
+
 module.exports.getAllPolicies = getAllPolicies;
 module.exports.getOnePolicy = getOnePolicy;
+module.exports.getGraphData = getGraphData;

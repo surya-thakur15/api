@@ -5,12 +5,14 @@ const postCtrl = require('../controller/postPolicies');
 const router = express.Router()
 
 router.get('/', (req, res) => {
-  res.status.json({"message": "OK"})
+  res.status(200).json({"message": "OK"})
 })
 
 router.get('/policy', getCtrl.getAllPolicies)
 
 router.put('/policy/update', postCtrl.updatePolicy)
+
+router.get('/policy/graph', getCtrl.getGraphData)
 
 router.get('/policy/data/:id', getCtrl.getOnePolicy)
 
