@@ -1,5 +1,6 @@
 
 const queryHandler = require('../../handler/database/queryHandler');
+const months = require('../../util');
 
 let getAllPolicies = function (req, res) {
   try {
@@ -85,32 +86,30 @@ let getOnePolicy = function (req, res) {
 
 let getGraphData = function (req, res) {
   try {
-
+    
     console.log("Inside Get One Policy ");
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     console.log("REQ URL: ", fullUrl);
 
     let data = req.query;
     console.log("data", data);
-
-    if (!(data && data.month && data.region)) {
-      console.log("BAD REQUEST, Missing Month or Region");
+    if (!(data && data.region)) {
+      console.log("BAD REQUEST, Missing Region");
       res.status(400).json({ "message": "Bad Request" });
       return;
     }
 
-    let query = `select pd.policy_id as name, count(pd.policy_id) as count
-                from policy_details pd left join user_details ud
-                on ud.customer_id = pd.customer_id
-                where MONTH(pd.date_of_purchase) = ?
-                and ud.region = ? group by pd.policy_id`;
+    let query = `select MONTH(pd.date_of_purchase) as Month, 
+                  count(MONTH(pd.date_of_purchase)) as Count from
+                  policy_details pd left join user_details ud on
+                  ud.customer_id = pd.customer_id
+                  where ud.region = ? group by MONTH(pd.date_of_purchase)`;
 
-    let params = [data.month, data.region];
-    // let params = [3, 'North'];
-
+    let params = [data.region];
 
     queryHandler(req.app.get('dbRead'), query, params)
       .then(response => {
+        response.map(item =>  item.Month = months[item.Month] )
         res.status(200).json({ response });
       })
       .catch((error) => {

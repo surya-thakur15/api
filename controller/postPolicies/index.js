@@ -23,7 +23,7 @@ let updatePolicy = function (req, res) {
     let subQueryTwo = [];
 
     if (data.fuel) {
-      subQuery.push('fuel = ?');
+      subQuery.push('fuel = ?'); 
       params.push(data.fuel);
     }
 

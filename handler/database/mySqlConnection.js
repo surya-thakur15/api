@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+
 function mySqlConnector() {
 
   this.connect = function (mySqlConfig, callback) {
@@ -22,6 +23,7 @@ function mySqlConnector() {
 
     callback(null, connection);
   };
+  
 }
 
 module.exports = mySqlConnector;
